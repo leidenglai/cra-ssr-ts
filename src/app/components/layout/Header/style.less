@@ -1,0 +1,27 @@
+.header {
+  width: 1230px;
+  margin: 0 auto;
+
+  ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  &-nav {
+    display: flex;
+    justify-content: space-between;
+
+    &__item {
+      display: inline-block;
+      padding: 4px 4px;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+}

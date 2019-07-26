@@ -1,10 +1,5 @@
-const webpack = require("webpack");
-const {
-  override,
-  addWebpackPlugin,
-  addBabelPlugin,
-  addLessLoader
-} = require("customize-cra");
+const webpack = require('webpack')
+const { override, addWebpackPlugin, addBabelPlugin, addLessLoader } = require('customize-cra')
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 /**
@@ -18,9 +13,9 @@ module.exports = override(
   addWebpackPlugin(
     /** 添加全局变量 */
     new webpack.DefinePlugin({
-      __DEV__: process.env.NODE_ENV === "development"
+      __DEV__: process.env.NODE_ENV === 'development'
     })
   ),
   /** 按需加载lodash */
-  addBabelPlugin("lodash")
-);
+  addBabelPlugin('lodash')
+)

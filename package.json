@@ -68,9 +68,7 @@
     ]
   },
   "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
+    "hooks": {}
   },
   "devDependencies": {
     "@types/redux-logger": "^3.0.7",

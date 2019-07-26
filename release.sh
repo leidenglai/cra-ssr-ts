@@ -8,7 +8,7 @@ clientDir=/usr/local/nginx/html/cra-ssr-ts
 serverDir=/home/leidenglai/node/cra-ssr-ts
 
 cd $releaseRootDir/cra-ssr-ts
-git clone --force https://github.com/leidenglai/cra-ssr-ts.git
+git clone https://github.com/leidenglai/cra-ssr-ts.git
 
 # client
 yarn install && yarn build

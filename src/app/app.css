@@ -22,15 +22,15 @@
   justify-content: center;
 }
 
-#links li.current a {
-  color: white;
-  font-weight: bold;
-}
-
 #links li a {
   padding: 10px;
   color: lightGray;
   text-decoration: none;
+}
+
+#links li.current a {
+  color: white;
+  font-weight: bold;
 }
 
 #links li a:hover {

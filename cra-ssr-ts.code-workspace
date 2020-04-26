@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "git.ignoreLimitWarning": true,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.codeActionsOnSave": {
+      // For ESLint and StyleLint
+      "source.fixAll": true
+    },
+    "eslint.enable": true,
+    "editor.formatOnSave": false,
+    "eslint.options": {
+      //指定vscode的eslint所处理的文件的后缀
+      "extensions": [".js", ".ts", ".tsx"]
+    },
+    "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+    "less.validate": false,
+    "less.scannerExclude": ["**/.git", "**/node_modules", "**/bower_components"]
+  }
+}

@@ -1,13 +1,13 @@
 # cra-ssr-ts 文档
 
 项目使用的 https://github.com/mnsht/cra-ssr 作为基础，做以下修改：
-1. 加入typescript
-2. 使用customize-cra自定义create-react-app 的webpack配置
-3. 使用Koa框架代替express
-4. 加入server端构建，原来的应用服务端直接调用源码
+
+1. 加入 typescript
+2. 使用 customize-cra 自定义 create-react-app 的 webpack 配置
+3. 使用 Koa 框架代替 express
+4. 加入 server 端构建，原来的应用服务端直接调用源码
 5. 加入简单的线上部署方案
 6. 加入国际化方案
-
 
 ### nodejs 中间层同构渲染 react 网站应用
 
@@ -61,69 +61,49 @@ yarn start
 构建
 
 ```sh
-yarn build && yarn tar
+yarn build
 ```
 
 构建 node
 
 ```sh
-cd server && yarn build && yarn tar
-```
-
-# Node 中间层服务 配置
-
-使用 nginx 反向代理 node 端口： 7000
-
-```nginx
-	  upstream crassrtswww {
-        server 127.0.0.1:7000;
-    }
-
-    server {
-        listen       80;
-        server_name  crassrts.idenlai.com;
-
-        set $trueip_aka $remote_addr;
-        set $xc_realip $http_XC_Proxy_Real_IP;
-        set $xc_domain $http_XC_Proxy_Request_Domain;
-        set $xc_locale $http_XC_Proxy_Locale;
-
-        access_log  logs/cra-ssr-ts.access.log  main;
-        error_log  logs/cra-ssr-ts.error.log error;
-
-        location / {
-            proxy_pass  http://crassrtswww;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-Ip $remote_addr;
-            proxy_cookie_path /crassrts /;
-            proxy_set_header Cookie $http_cookie;
-        }
-    }
-
+cd server && yarn build
 ```
 
 ## linux node 环境搭建
 
 安装 node LTS version
 
-`sudo yum install nodejs`
+`yum install nodejs`
 
 安装包管理工具
-`sudo npm install yarn -g`
+`npm install yarn -g`
 
 安装进程管理工具
-`sudo npm install pm2 -g`
+`npm install pm2 -g`
 
 切换到 node 工程目录
 
 ```
-# 切换到node工程目录
-cd /home/leidenglai/node/
-
-# 只安装生产环境依赖
+# 切换到node工程目录 只安装生产环境依赖
 yarn install --production
 ```
 
-使用 pm2 管理 node 服务，根目录下有pm2的配置文件
+使用 pm2 管理 node 服务
+
+```
+# 创建服务并启动
+pm2 start config/pm2.json
+
+# 重启
+pm2 restart cbet-platform
+
+# 停止
+pm2 stop cbet-platform
+
+# 日志
+pm2 log cbet-platform
+
+```
 
 release.sh 是自动化脚本 自动化发版

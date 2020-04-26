@@ -6,8 +6,7 @@
     "start": "react-app-rewired start",
     "build": "PUBLIC_URL=/ react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject",
-    "tar": "tar -zcvf ./build/client.tar.gz --exclude=build/.git build"
+    "all-build": "yarn install && yarn build && cd server && yarn install && yarn build"
   },
   "homepage": "https://github.com/leidenglai/cra-ssr-ts",
   "git": "https://github.com/leidenglai/cra-ssr-ts.git",
@@ -53,6 +52,12 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "stylelintIntegration": true,
+    "eslintIntegration": true
   },
   "browserslist": {
     "production": [

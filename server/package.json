@@ -6,6 +6,12 @@
     "start": "NODE_ENV=production PORT=7000 node ./build/server.js",
     "zip": "tar -zcvf server.tar.gz --exclude=build/.git build"
   },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "stylelintIntegration": true,
+    "eslintIntegration": true
+  },
   "dependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",

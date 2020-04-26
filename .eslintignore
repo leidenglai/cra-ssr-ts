@@ -1,3 +1,5 @@
-public/**
+publish/**
 node_modules/**
 build/**
+server/build/**
+/*

@@ -5,7 +5,7 @@ import authReducer from './auth'
 
 const rootReducers = combineReducers({
   profile: profileReducer,
-  auth: authReducer
+  auth: authReducer,
 })
 
 export interface AppState extends ReturnType<typeof rootReducers> {}

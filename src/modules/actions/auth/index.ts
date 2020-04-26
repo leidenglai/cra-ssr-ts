@@ -5,19 +5,19 @@ import { UserInfo } from 'modules/reducers/auth'
 export const authenticateAction = (auth: boolean) => {
   return {
     type: AUTHENTICATE as typeof AUTHENTICATE,
-    payload: auth
+    payload: auth,
   }
 }
 
 export const setCurrentUserAction = (user: UserInfo | {}) => {
   return {
     type: SET_CURRENT_USER as typeof SET_CURRENT_USER,
-    payload: user
+    payload: user,
   }
 }
 
-export const establishCurrentUser = () => dispatch =>
-  new Promise(resolve => {
+export const establishCurrentUser = () => (dispatch) =>
+  new Promise((resolve) => {
     const userFromCookie = Cookies.getJSON('mywebsite')
 
     if (userFromCookie) {
@@ -32,12 +32,12 @@ export const establishCurrentUser = () => dispatch =>
     }
   })
 
-export const loginUser = (email: string, password: string) => dispatch =>
-  new Promise(resolve => {
+export const loginUser = (email: string, password: string) => (dispatch) =>
+  new Promise((resolve) => {
     const user = {
       email,
       password,
-      name: 'Awesome User'
+      name: 'Awesome User',
     }
 
     dispatch(setCurrentUserAction(user))
@@ -47,8 +47,8 @@ export const loginUser = (email: string, password: string) => dispatch =>
     resolve(user)
   })
 
-export const logoutUser = () => dispatch =>
-  new Promise(resolve => {
+export const logoutUser = () => (dispatch) =>
+  new Promise((resolve) => {
     dispatch(authenticateAction(false))
     dispatch(setCurrentUserAction({}))
 

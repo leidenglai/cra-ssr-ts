@@ -19,12 +19,12 @@ type Actions = UpdateCurrentProfileAction
 
 export default createReducer<ProfileState, Types, Actions>(
   {
-    currentProfile: null
+    currentProfile: null,
   },
   {
-    [SET_CURRENT_PROFILE]: (state, action: UpdateCurrentProfileAction) =>
-      produce(state, draft => {
+    [SET_CURRENT_PROFILE]: (state, action) =>
+      produce(state, (draft) => {
         draft.currentProfile = action.payload
-      })
+      }),
   }
 )

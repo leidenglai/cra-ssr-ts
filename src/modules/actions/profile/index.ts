@@ -4,12 +4,12 @@ import { Profile } from 'modules/reducers/profile'
 export const setCurrentProfile = (profile: Profile | null) => {
   return {
     type: SET_CURRENT_PROFILE as typeof SET_CURRENT_PROFILE,
-    payload: profile
+    payload: profile,
   }
 }
 
-export const getCurrentProfile = (id: number) => dispatch =>
-  new Promise(resolve => {
+export const getCurrentProfile = (id: number) => (dispatch) =>
+  new Promise((resolve) => {
     setTimeout(() => {
       let profile: Profile
 
@@ -17,13 +17,13 @@ export const getCurrentProfile = (id: number) => dispatch =>
         profile = {
           id,
           name: 'Pekka Rinne',
-          image: 'http://xxxxx.coms'
+          image: 'http://xxxxx.coms',
         }
       } else {
         profile = {
           id,
           name: 'Viktor Arvidsson',
-          image: 'http://xxxxx.coms'
+          image: 'http://xxxxx.coms',
         }
       }
 
@@ -33,8 +33,8 @@ export const getCurrentProfile = (id: number) => dispatch =>
     }, 200)
   })
 
-export const removeCurrentProfile = () => dispatch =>
-  new Promise(resolve => {
+export const removeCurrentProfile = () => (dispatch) =>
+  new Promise((resolve) => {
     dispatch(setCurrentProfile(null))
 
     resolve({})

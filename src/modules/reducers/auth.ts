@@ -4,7 +4,7 @@ import { createReducer } from 'utils/createReducer'
 import { UpdateAuthAction, UpdateCurrentUserAction } from 'modules/actions/auth'
 import { AUTHENTICATE, SET_CURRENT_USER } from 'modules/actions/types'
 
-type Actions = UpdateAuthAction & UpdateCurrentUserAction
+type Actions = UpdateAuthAction | UpdateCurrentUserAction
 
 type Types = typeof AUTHENTICATE | typeof SET_CURRENT_USER
 
@@ -22,16 +22,16 @@ export interface AuthState {
 export default createReducer<AuthState, Types, Actions>(
   {
     isAuthenticated: false,
-    currentUser: {}
+    currentUser: {},
   },
   {
-    [AUTHENTICATE]: (state, action: UpdateAuthAction) =>
-      produce(state, draft => {
+    [AUTHENTICATE]: (state, action) =>
+      produce(state, (draft) => {
         draft.isAuthenticated = action.payload
       }),
-    [SET_CURRENT_USER]: (state, action: UpdateCurrentUserAction) =>
-      produce(state, draft => {
+    [SET_CURRENT_USER]: (state, action) =>
+      produce(state, (draft) => {
         draft.currentUser = action.payload
-      })
+      }),
   }
 )

@@ -10,7 +10,7 @@ const Homepage = Loadable({
   loading: () => null,
   modules: ['home'],
   // @ts-ignore: webpack扩展的require.resolveWeak方法
-  webpack: () => [require.resolveWeak('./home')]
+  webpack: () => [require.resolveWeak('./home')],
 })
 
 /** 市场页 */
@@ -19,7 +19,7 @@ const Market = Loadable({
   loading: () => null,
   modules: ['market'],
   // @ts-ignore: webpack扩展的require.resolveWeak方法
-  webpack: () => [require.resolveWeak('./market')]
+  webpack: () => [require.resolveWeak('./market')],
 })
 
 /** 详情页 */
@@ -28,10 +28,10 @@ const Detail = Loadable({
   loading: () => null,
   modules: ['detail'],
   // @ts-ignore: webpack扩展的require.resolveWeak方法
-  webpack: () => [require.resolveWeak('./detail')]
+  webpack: () => [require.resolveWeak('./detail')],
 })
 
-export default () =>
+export default () => (
   <Switch>
     <Route exact path="/" component={Homepage} />
     <Route exact path="/market" component={Market} />
@@ -39,3 +39,4 @@ export default () =>
 
     <Route component={NotFound} />
   </Switch>
+)

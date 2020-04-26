@@ -23,7 +23,7 @@ const { store, history } = createStore()
 
 // Running locally, we should run on a <ConnectedRouter /> rather than on a <StaticRouter /> like on the server
 // Let's also let React Frontload explicitly know we're not rendering on the server here
-const Application =
+const Application = (
   <Provider store={store}>
     <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
       <RSIntlProvider locale={appLocale.rsData}>
@@ -35,6 +35,7 @@ const Application =
       </RSIntlProvider>
     </IntlProvider>
   </Provider>
+)
 
 const root = document.querySelector('#root')
 

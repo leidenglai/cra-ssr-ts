@@ -11,14 +11,14 @@ const serverConfig = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'server.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   target: 'node',
   node: {
     console: true,
     process: true,
     __filename: true,
-    __dirname: true
+    __dirname: true,
   },
   module: {
     rules: [
@@ -29,9 +29,9 @@ const serverConfig = {
           options: {
             presets: ['@babel/preset-react'],
             cacheDirectory: true,
-            caller: 'node'
-          }
-        }
+            caller: 'node',
+          },
+        },
       },
       {
         test: /\.tsx?/,
@@ -45,43 +45,51 @@ const serverConfig = {
               caller: 'node',
               env: {
                 production: {
-                  presets: [['@babel/preset-env', { targets: { node: 'current' }}]]
-                }
-              }
-            }
-          }
-        ]
+                  presets: [
+                    ['@babel/preset-env', { targets: { node: 'current' } }],
+                  ],
+                },
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(le|c)ss$/,
-        loader: ['css-loader', 'less-loader']
+        loader: ['css-loader', 'less-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg|webp)$/,
         loader: 'url-loader',
         options: {
           limit: 1024 * 10, // 10kb以下装base64格式
-          name: 'img/[name].[hash:8].[ext]'
-        }
-      }
-    ]
+          name: 'img/[name].[hash:8].[ext]',
+        },
+      },
+    ],
   },
   optimization: {
-    minimize: false // <---- disables uglify.
+    minimize: false, // <---- disables uglify.
   },
   externals: nodeExternals(),
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, '../src')],
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx'],
   },
   plugins: [
     new CleanWebpackPlugin({
-      verbose: true
+      verbose: true,
     }),
     // 将node需要的模板文件拷贝到生产环境
     new CopyPlugin([
-      { from: path.resolve(__dirname, '../build/index.html'), to: path.resolve(__dirname, 'build/view/index.html') },
-      { from: path.resolve(__dirname, 'package.json'), to: path.resolve(__dirname, 'build/package.json') }
+      {
+        from: path.resolve(__dirname, '../build/index.html'),
+        to: path.resolve(__dirname, 'build/view/index.html'),
+      },
+      {
+        from: path.resolve(__dirname, 'package.json'),
+        to: path.resolve(__dirname, 'build/package.json'),
+      },
     ]),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DefinePlugin({
@@ -90,14 +98,14 @@ const serverConfig = {
       // ================================
       __DEV__: false,
       __PROD__: true,
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 500000 // Minimum number of characters
+      minChunkSize: 500000, // Minimum number of characters
     }),
     // 进度条
-    new ProgressBarPlugin()
-  ]
+    new ProgressBarPlugin(),
+  ],
 }
 
 module.exports = serverConfig

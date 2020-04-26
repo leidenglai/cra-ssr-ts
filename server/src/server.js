@@ -49,12 +49,12 @@ Loadable.preloadAll()
       console.log(`App listening on port ${PORT}!`)
     })
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err)
   })
 
 // Handle the bugs somehow
-app.on('error', error => {
+app.on('error', (error) => {
   if (error.syscall !== 'listen') {
     throw error
   }

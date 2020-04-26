@@ -6,8 +6,15 @@ import { RouteComponentProps } from 'react-router'
 
 import Page from 'app/components/common/page'
 import { AppState } from 'modules/reducers'
-import { getCurrentProfile, removeCurrentProfile } from 'modules/actions/profile'
-import { FormattedMessage, FormattedNumber, FormattedRelative } from 'react-intl'
+import {
+  getCurrentProfile,
+  removeCurrentProfile,
+} from 'modules/actions/profile'
+import {
+  FormattedMessage,
+  FormattedNumber,
+  FormattedRelative,
+} from 'react-intl'
 
 interface DetailPageProps extends RouteComponentProps<{ id: string }> {
   currentProfile: AppState['profile']['currentProfile']
@@ -18,7 +25,7 @@ interface DetailPageProps extends RouteComponentProps<{ id: string }> {
 /**
  * 请求初始数据
  */
-const frontload = async(props: DetailPageProps) => {
+const frontload = async (props: DetailPageProps) => {
   await props.getCurrentProfile(+props.match.params.id)
 }
 
@@ -43,11 +50,12 @@ class DetailPage extends Component<DetailPageProps> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    currentProfile: state.profile.currentProfile
+    currentProfile: state.profile.currentProfile,
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getCurrentProfile, removeCurrentProfile }, dispatch)
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ getCurrentProfile, removeCurrentProfile }, dispatch)
 
 export default connect(
   mapStateToProps,
@@ -55,6 +63,6 @@ export default connect(
 )(
   frontloadConnect(frontload, {
     onMount: true,
-    onUpdate: false
+    onUpdate: false,
   })(DetailPage)
 )

@@ -13,7 +13,7 @@ const appLocale = {
   // react-intl locale-data
   data: appLocaleData,
   // resuite intl
-  rsData: rsLocaleData
+  rsData: rsLocaleData,
 }
 
 export default appLocale

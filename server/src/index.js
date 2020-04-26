@@ -13,7 +13,7 @@ const extensions = ['.gif', '.jpeg', '.jpg', '.png', '.svg']
 
 // Override the default style ignorer, also modifying all image requests
 register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
-  if (!extensions.find(f => filename.endsWith(f))) {
+  if (!extensions.find((f) => filename.endsWith(f))) {
     // If we find a style
     return ignoreStyles.noOp()
   }
@@ -22,8 +22,10 @@ register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
   const fileSizeInBytes = stats.size / 1024
 
   if (fileSizeInBytes <= 10) {
-    mod.exports = `data:image/${mod.filename.split('.').pop()};base64,${fs.readFileSync(mod.filename, {
-      encoding: 'base64'
+    mod.exports = `data:image/${mod.filename
+      .split('.')
+      .pop()};base64,${fs.readFileSync(mod.filename, {
+      encoding: 'base64',
     })}`
 
     return ignoreStyles.noOp()
@@ -43,8 +45,16 @@ require('@babel/polyfill')
 require('@babel/register')({
   extensions: ['.js', '.ts', '.tsx'],
   ignore: [/\/(build|node_modules)\//],
-  presets: ['@babel/preset-react', '@babel/preset-typescript', '@babel/preset-env'],
-  plugins: ['@babel/plugin-syntax-dynamic-import', 'dynamic-import-node', 'react-loadable/babel']
+  presets: [
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+    '@babel/preset-env',
+  ],
+  plugins: [
+    '@babel/plugin-syntax-dynamic-import',
+    'dynamic-import-node',
+    'react-loadable/babel',
+  ],
 })
 
 // Create aliases of directories and register custom module paths in NodeJS like a boss!

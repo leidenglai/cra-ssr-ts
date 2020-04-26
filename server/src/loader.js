@@ -20,7 +20,10 @@ import Root from '../../src/app/Root'
 import manifest from '../../build/asset-manifest.json'
 
 // Some optional Redux functions related to user authentication
-import { setCurrentUserAction, logoutUser } from '../../src/modules/actions/auth'
+import {
+  setCurrentUserAction,
+  logoutUser,
+} from '../../src/modules/actions/auth'
 
 // 多语言
 import appZhLocale from '../../src/locales/zh-Hans-CN'
@@ -38,7 +41,10 @@ import appEnLocale from '../../src/locales/en-US'
       - Code-split script tags depending on the current route
       - 浏览器兼容性 ie11 及以下 polyfill
   */
-const injectHTML = (data, { html, title, meta, body, scripts, state, config, platform }) => {
+const injectHTML = (
+  data,
+  { html, title, meta, body, scripts, state, config, platform }
+) => {
   data = data.replace('<html>', `<html ${html}>`)
   data = data.replace(/<title>.*?<\/title>/g, title)
   data = data.replace('</head>', `${meta}</head>`)
@@ -55,20 +61,23 @@ const injectHTML = (data, { html, title, meta, body, scripts, state, config, pla
 // 缓存语言文件
 const locales = {
   'zh-Hans-CN': appZhLocale,
-  'en-US': appEnLocale
+  'en-US': appEnLocale,
 }
 
 // loader middlewares
-export default async function(ctx, next) {
+export default async function (ctx, next) {
   let htmlData = ''
 
   try {
     // Load in our HTML file from our build
-    htmlData = fs.readFileSync(path.resolve(process.cwd(), './build/view/index.html'), 'utf8')
+    htmlData = fs.readFileSync(
+      path.resolve(process.cwd(), './build/view/index.html'),
+      'utf8'
+    )
   } catch (err) {
     console.error('Read error', err)
 
-    return ctx.status = 404
+    return (ctx.status = 404)
   }
 
   // Create a store (with a memory history) from our current url
@@ -107,9 +116,12 @@ export default async function(ctx, next) {
   try {
     routeMarkup = await frontloadServerRender(() =>
       renderToString(
-        <Loadable.Capture report={m => modules.push(m)}>
+        <Loadable.Capture report={(m) => modules.push(m)}>
           <Provider store={store}>
-            <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
+            <IntlProvider
+              locale={appLocale.locale}
+              messages={appLocale.messages}
+            >
               <RSIntlProvider locale={appLocale.rsData}>
                 <StaticRouter location={ctx.url} context={context}>
                   <Frontload>
@@ -120,11 +132,12 @@ export default async function(ctx, next) {
             </IntlProvider>
           </Provider>
         </Loadable.Capture>
-      ))
+      )
+    )
   } catch (err) {
     console.error('React renderToString error', err)
 
-    return ctx.status = 404
+    return (ctx.status = 404)
   }
 
   if (context.url) {
@@ -138,11 +151,17 @@ export default async function(ctx, next) {
     // Let's give ourself a function to load all our page-specific JS assets for code splitting
     const extractAssets = (assets, chunks) =>
       Object.keys(assets)
-        .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
-        .map(k => assets[k])
+        .filter((asset) => chunks.indexOf(asset.replace('.js', '')) > -1)
+        .map((k) => assets[k])
 
     // Let's format those assets into pretty <script> tags
-    const extraChunks = extractAssets(manifest, modules).map(c => `<script type="text/javascript" src="/${c.replace(/^\//, '')}"></script>`)
+    const extraChunks = extractAssets(manifest, modules).map(
+      (c) =>
+        `<script type="text/javascript" src="/${c.replace(
+          /^\//,
+          ''
+        )}"></script>`
+    )
 
     // We need to tell Helmet to compute the right meta tags, title, and such
     const helmet = Helmet.renderStatic()
@@ -160,7 +179,7 @@ export default async function(ctx, next) {
       scripts: extraChunks,
       state: JSON.stringify(store.getState()).replace(/</g, '\\u003c'),
       config: JSON.stringify({ appLocale }),
-      platform: ctx.platform
+      platform: ctx.platform,
     })
 
     // We have all the final HTML, let's send it to the user already!

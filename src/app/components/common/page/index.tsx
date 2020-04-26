@@ -4,7 +4,10 @@ import Helmet from 'react-helmet'
 import logo from '../../../assets/images/logo.jpg'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
-const SITE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://crassrts.idenglai.com'
+const SITE_URL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://crassrts.idenglai.com'
 
 const defaultTitle = 'cra-ssr-ts'
 const defaultDescription = 'xx.'
@@ -30,15 +33,21 @@ interface PageProps extends RouteComponentProps, MetaTags, InjectedIntlProps {
 
 class Page extends Component<PageProps> {
   getMetaTags(metaOptions: MetaTags, pathname: string) {
-    const theTitle = metaOptions.title ? (metaOptions.title + defaultSep + defaultTitle).substring(0, 60) : defaultTitle
-    const theDescription = metaOptions.description ? metaOptions.description.substring(0, 155) : defaultDescription
-    const theImage = metaOptions.image ? `${SITE_URL}${metaOptions.image}` : defaultImage
+    const theTitle = metaOptions.title
+      ? (metaOptions.title + defaultSep + defaultTitle).substring(0, 60)
+      : defaultTitle
+    const theDescription = metaOptions.description
+      ? metaOptions.description.substring(0, 155)
+      : defaultDescription
+    const theImage = metaOptions.image
+      ? `${SITE_URL}${metaOptions.image}`
+      : defaultImage
 
     const metaTags = [
       { itemprop: 'name', content: theTitle },
       { itemprop: 'description', content: theDescription },
       { itemprop: 'image', content: theImage },
-      { name: 'description', content: theDescription }
+      { name: 'description', content: theDescription },
     ]
 
     if (metaOptions.noCrawl) {
@@ -46,10 +55,16 @@ class Page extends Component<PageProps> {
     }
 
     if (metaOptions.published) {
-      metaTags.push({ name: 'article:published_time', content: metaOptions.published })
+      metaTags.push({
+        name: 'article:published_time',
+        content: metaOptions.published,
+      })
     }
     if (metaOptions.updated) {
-      metaTags.push({ name: 'article:modified_time', content: metaOptions.updated })
+      metaTags.push({
+        name: 'article:modified_time',
+        content: metaOptions.updated,
+      })
     }
     if (metaOptions.category) {
       metaTags.push({ name: 'article:section', content: metaOptions.category })
@@ -70,14 +85,16 @@ class Page extends Component<PageProps> {
           htmlAttributes={{
             lang: intl.locale || 'en',
             itemscope: undefined,
-            itemtype: `http://schema.org/${rest.schema || 'WebPage'}`
+            itemtype: `http://schema.org/${rest.schema || 'WebPage'}`,
           }}
-          title={rest.title ? rest.title + defaultSep + defaultTitle : defaultTitle}
+          title={
+            rest.title ? rest.title + defaultSep + defaultTitle : defaultTitle
+          }
           link={[
             {
               rel: 'canonical',
-              href: SITE_URL + this.props.location.pathname
-            }
+              href: SITE_URL + this.props.location.pathname,
+            },
           ]}
           meta={this.getMetaTags(rest, this.props.location.pathname)}
         />

@@ -6,8 +6,15 @@ import { RouteComponentProps } from 'react-router'
 
 import Page from 'app/components/common/page'
 import { AppState } from 'modules/reducers'
-import { getCurrentProfile, removeCurrentProfile } from 'modules/actions/profile'
-import { FormattedMessage, FormattedNumber, FormattedRelative } from 'react-intl'
+import {
+  getCurrentProfile,
+  removeCurrentProfile,
+} from 'modules/actions/profile'
+import {
+  FormattedMessage,
+  FormattedNumber,
+  FormattedRelative,
+} from 'react-intl'
 
 interface MarketPageProps extends RouteComponentProps {
   currentProfile: AppState['profile']['currentProfile']
@@ -18,7 +25,7 @@ interface MarketPageProps extends RouteComponentProps {
 /**
  * 请求初始数据
  */
-const frontload = async(props: MarketPageProps) => {
+const frontload = async (props: MarketPageProps) => {
   await props.getCurrentProfile(1)
 }
 
@@ -42,11 +49,12 @@ class MarketPage extends Component<MarketPageProps> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    currentProfile: state.profile.currentProfile
+    currentProfile: state.profile.currentProfile,
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getCurrentProfile, removeCurrentProfile }, dispatch)
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ getCurrentProfile, removeCurrentProfile }, dispatch)
 
 export default connect(
   mapStateToProps,
@@ -54,6 +62,6 @@ export default connect(
 )(
   frontloadConnect(frontload, {
     onMount: true,
-    onUpdate: false
+    onUpdate: false,
   })(MarketPage)
 )

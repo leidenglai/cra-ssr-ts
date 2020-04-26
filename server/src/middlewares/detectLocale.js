@@ -13,9 +13,9 @@ function langMap(str) {
  * 处理语言 在ctx添加一个i18n属性，保存多语言
  * @param {'zh-Hans-CN'|'en-US'} defLang 默认语言
  */
-const detectLocale = defLang =>
-  async function(ctx, next) {
-    const { cookies, i18n = {}} = ctx
+const detectLocale = (defLang) =>
+  async function (ctx, next) {
+    const { cookies, i18n = {} } = ctx
 
     if (cookies.get('locale')) {
       // 优先使用 cookies中的locale

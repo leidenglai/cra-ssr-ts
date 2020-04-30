@@ -13,7 +13,7 @@ const extensions = ['.gif', '.jpeg', '.jpg', '.png', '.svg']
 
 // Override the default style ignorer, also modifying all image requests
 register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
-  if (!extensions.find((f) => filename.endsWith(f))) {
+  if (!extensions.find(f => filename.endsWith(f))) {
     // If we find a style
     return ignoreStyles.noOp()
   }
@@ -25,7 +25,7 @@ register(ignoreStyles.DEFAULT_EXTENSIONS, (mod, filename) => {
     mod.exports = `data:image/${mod.filename
       .split('.')
       .pop()};base64,${fs.readFileSync(mod.filename, {
-      encoding: 'base64',
+      encoding: 'base64'
     })}`
 
     return ignoreStyles.noOp()
@@ -48,13 +48,13 @@ require('@babel/register')({
   presets: [
     '@babel/preset-react',
     '@babel/preset-typescript',
-    '@babel/preset-env',
+    '@babel/preset-env'
   ],
   plugins: [
     '@babel/plugin-syntax-dynamic-import',
     'dynamic-import-node',
-    'react-loadable/babel',
-  ],
+    'react-loadable/babel'
+  ]
 })
 
 // Create aliases of directories and register custom module paths in NodeJS like a boss!

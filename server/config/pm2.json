@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "cbet-nodejs",
+      "name": "cra-ssr",
       "cwd": "build",
       "script": "server.js",
       "instances": "2",
@@ -9,11 +9,7 @@
       "env": {
         "NODE_ENV": "production",
         "PORT": 9998
-      },
-      "log_file": "/usr/local/project/nodejs/logs/cra-ssr-ts.access.log",
-      "error_file": "/usr/local/project/nodejs/logs/cra-ssr-ts.error.log",
-      "log_date_format": "YYYY-MM-DD_HH:mm Z",
-      "merge_logs": true
+      }
     }
   ]
 }

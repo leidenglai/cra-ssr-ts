@@ -4,30 +4,26 @@ import fs from 'fs'
 
 // React requirements
 import React from 'react'
-import { renderToString } from 'react-dom/server'
+import ReactDOMServer from '../../node_modules/react-dom/server'
 import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 import { Frontload, frontloadServerRender } from 'react-frontload'
-import Loadable from 'react-loadable'
-// import { addLocaleData, IntlProvider } from 'react-intl'
 import { IntlProvider } from 'react-intl'
-import RSIntlProvider from 'rsuite/lib/IntlProvider'
+import { ConfigProvider } from 'antd'
+import Loadable from 'react-loadable'
 
 // Our store, entrypoint, and manifest
 import createStore from '../../src/modules/store'
 import Root from '../../src/app/Root'
 import manifest from '../../build/asset-manifest.json'
-
+// 多语言
+import { appIntlEn, appIntlZh } from '../../src/locales'
 // Some optional Redux functions related to user authentication
 import {
   setCurrentUserAction,
-  logoutUser,
+  logoutUser
 } from '../../src/modules/actions/auth'
-
-// 多语言
-import appZhLocale from '../../src/locales/zh-Hans-CN'
-import appEnLocale from '../../src/locales/en-US'
 
 // 注释 暂不需要 react-intl 提供的locale-data
 // addLocaleData([...appZhLocale.data, ...appEnLocale.data])
@@ -43,14 +39,14 @@ import appEnLocale from '../../src/locales/en-US'
   */
 const injectHTML = (
   data,
-  { html, title, meta, body, scripts, state, config, platform }
+  { html, title, meta, body, scripts, state, intl }
 ) => {
   data = data.replace('<html>', `<html ${html}>`)
   data = data.replace(/<title>.*?<\/title>/g, title)
   data = data.replace('</head>', `${meta}</head>`)
   data = data.replace(
     '<div id="root"></div>',
-    `<div id="root">${body}</div><script>window.__PRELOADED_STATE__ = ${state}</script><script>window.__CLIENT_CONFIG__ = ${config}</script>${scripts.join(
+    `<div id="root">${body}</div><script>window.__PRELOADED_STATE__ = ${state}</script><script>window.__INTL_CONFIG__ = ${intl}</script>${scripts.join(
       ''
     )}`
   )
@@ -59,9 +55,9 @@ const injectHTML = (
 }
 
 // 缓存语言文件
-const locales = {
-  'zh-Hans-CN': appZhLocale,
-  'en-US': appEnLocale,
+const intlMap = {
+  en: appIntlEn,
+  zh: appIntlZh
 }
 
 // loader middlewares
@@ -93,7 +89,7 @@ export default async function (ctx, next) {
   }
 
   // 多语言配置
-  const appLocale = locales[ctx.i18n.locale]
+  const appLocale = intlMap[ctx.i18n.key]
   const context = {}
   const modules = []
 
@@ -114,25 +110,32 @@ export default async function (ctx, next) {
     then loaded into the correct components and sent as a Promise to be handled below.
   */
   try {
-    routeMarkup = await frontloadServerRender(() =>
-      renderToString(
-        <Loadable.Capture report={(m) => modules.push(m)}>
+    routeMarkup = await frontloadServerRender(
+      () =>
+        ReactDOMServer.renderToString(
           <Provider store={store}>
             <IntlProvider
               locale={appLocale.locale}
               messages={appLocale.messages}
             >
-              <RSIntlProvider locale={appLocale.rsData}>
-                <StaticRouter location={ctx.url} context={context}>
-                  <Frontload>
-                    <Root />
-                  </Frontload>
-                </StaticRouter>
-              </RSIntlProvider>
+              <Loadable.Capture report={m => modules.push(m)}>
+                <ConfigProvider locale={appLocale.antdLocale}>
+                  <StaticRouter location={ctx.url} context={context}>
+                    <Frontload>
+                      <Root />
+                    </Frontload>
+                  </StaticRouter>
+                </ConfigProvider>
+              </Loadable.Capture>
             </IntlProvider>
           </Provider>
-        </Loadable.Capture>
-      )
+        ),
+      {
+        // If any frontload function throws an Error, swallow it and just carry on rendering.
+        // The default is false, meaning the first encountered Error will be thrown by
+        // frontloadServerRender, so that it can be caught and handled (perhaps by responding with an error page).
+        continueRenderingOnError: true
+      }
     )
   } catch (err) {
     console.error('React renderToString error', err)
@@ -151,12 +154,12 @@ export default async function (ctx, next) {
     // Let's give ourself a function to load all our page-specific JS assets for code splitting
     const extractAssets = (assets, chunks) =>
       Object.keys(assets)
-        .filter((asset) => chunks.indexOf(asset.replace('.js', '')) > -1)
-        .map((k) => assets[k])
+        .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
+        .map(k => assets[k])
 
     // Let's format those assets into pretty <script> tags
     const extraChunks = extractAssets(manifest, modules).map(
-      (c) =>
+      c =>
         `<script type="text/javascript" src="/${c.replace(
           /^\//,
           ''
@@ -165,6 +168,12 @@ export default async function (ctx, next) {
 
     // We need to tell Helmet to compute the right meta tags, title, and such
     const helmet = Helmet.renderStatic()
+
+    // 多语言数据
+    const appIntl = Object.assign(
+      { key: ctx.i18n.key },
+      { messages: appLocale.messages, locale: appLocale.appLocale }
+    )
 
     // NOTE: Disable if you desire
     // Let's output the title, just to see SSR is working as intended
@@ -178,8 +187,7 @@ export default async function (ctx, next) {
       body: routeMarkup,
       scripts: extraChunks,
       state: JSON.stringify(store.getState()).replace(/</g, '\\u003c'),
-      config: JSON.stringify({ appLocale }),
-      platform: ctx.platform,
+      intl: JSON.stringify(appIntl)
     })
 
     // We have all the final HTML, let's send it to the user already!

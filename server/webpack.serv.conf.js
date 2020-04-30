@@ -80,7 +80,7 @@ const serverConfig = {
     new CleanWebpackPlugin({
       verbose: true,
     }),
-    // 将node需要的模板文件拷贝到生产环境
+    // 将node服务需要的模板文件和package.json拷贝到构建包
     new CopyPlugin([
       {
         from: path.resolve(__dirname, '../build/index.html'),

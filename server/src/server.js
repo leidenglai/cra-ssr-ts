@@ -1,5 +1,6 @@
 // 忽略node端 打包文件的styles
 import 'ignore-styles'
+import 'intl'
 
 // Koa2 requirements
 import Koa from 'koa'
@@ -8,38 +9,46 @@ import compress from 'koa-compress'
 import json from 'koa-json'
 import logger from 'koa-logger'
 import Router from 'koa-router'
-import koaStatic from 'koa-static'
-import path from 'path'
 import Loadable from 'react-loadable'
-import detectLocale from './middlewares/detectLocale'
+import fetch from 'node-fetch'
+import handleLocale from './middlewares/handleLocale'
+import memoryCache from './middlewares/memoryCache'
 
+import { PAGE_MEMORY_CACHE, NODE_PORT, APP_SECRET } from './config'
 // Our loader - this basically acts as the entry point for each page load
 import loader from './loader'
 
+const mode = process.env.NODE_ENV.trim() // 当前环境
+
+// fixbug: fetch is not defined
+if (!global.fetch) {
+  global.fetch = fetch
+}
+
 // Create our Koa app using the port optionally specified
 const app = new Koa()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || NODE_PORT
 
-console.log(PORT)
-
-app.keys = ['this is a secret']
+app.keys = APP_SECRET
 
 // Compress, parse, log...
 app.use(compress())
 app.use(bodyParser())
 app.use(logger())
 app.use(json())
+// 处理语言
+app.use(handleLocale())
 
-// 处理返回语言 默认en-US // 缓存条件 之一
-app.use(detectLocale('en-US'))
+// 生产环境开启缓存
+if (mode === 'production') {
+  app.use(memoryCache(PAGE_MEMORY_CACHE))
+}
 
 // Set up homepage, static assets, and capture everything else
 const router = new Router()
 
 router.get('/', loader)
 app.use(router.routes()).use(router.allowedMethods())
-// 前端文件存放目录
-app.use(koaStatic(path.resolve(process.cwd(), '../build')))
 app.use(loader)
 
 // We tell React Loadable to load all required assets and start listening - ROCK AND ROLL!
@@ -49,12 +58,12 @@ Loadable.preloadAll()
       console.log(`App listening on port ${PORT}!`)
     })
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(err)
   })
 
 // Handle the bugs somehow
-app.on('error', (error) => {
+app.on('error', error => {
   if (error.syscall !== 'listen') {
     throw error
   }

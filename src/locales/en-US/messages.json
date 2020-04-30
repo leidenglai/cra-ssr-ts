@@ -1,3 +1,8 @@
 {
-  "page.hello": "Hello World!"
+  "page.hello": "Hello World!",
+  "page.home": "Home",
+  "page.market": "Market",
+  "page.detail": "Detail 1",
+  "page.detail2": "Detail 2",
+  "page.is_home": "It's Home"
 }

@@ -1,0 +1,8 @@
+**/*.js
+**/*.ts
+**/*.tsx
+build/**
+public/libs/**
+node_modules/**
+public/**
+server/build/**

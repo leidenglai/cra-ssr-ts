@@ -14,7 +14,9 @@
 ### 什么是同构？
 
 「后端渲染」指传统的 Java 或 PHP 的渲染机制，前端一般只负责出 UI 样式界面和少量的 js 交互代码。
+
 「前端渲染」指使用 JS 来渲染页面大部分内容，代表是现在流行的 SPA 单页面应用，后端只用负责出数据接口，前后端几乎全部使用异步数据请求（如 ajax、fetch 等）交互。
+
 「同构渲染」加入一个中间层的概念，node 中间层从后端接过渲染的逻辑，首次渲染时使用 Node.js 来直出 HTML，后续客户端交互包括路由切换直接在客户端完成。一般来说同构渲染是介于前后端中的共有部分。
 
 React+Node 技术栈开发 Web 网站。React 本身提供了一套优雅的实现服务器渲染的方式。使用 React 实现服务器渲染有以下好处
@@ -27,7 +29,7 @@ React+Node 技术栈开发 Web 网站。React 本身提供了一套优雅的实�
 
 **缺点**
 
-- 对前端技术要求更高
+- 对前端能力要求更高
 - 需要 node 去实现一些后端渲染的优化方案
 
 方案
@@ -44,7 +46,7 @@ React+Node 技术栈开发 Web 网站。React 本身提供了一套优雅的实�
 
 ## 开始
 
-环境：nodejs v10.15.0、 yarn v1.9.4
+环境：nodejs v10+、 yarn v1.9+
 
 初始化 安装依赖
 
@@ -96,14 +98,14 @@ yarn install --production
 pm2 start config/pm2.json
 
 # 重启
-pm2 restart cbet-platform
+pm2 restart config/pm2.json
 
 # 停止
-pm2 stop cbet-platform
+pm2 stop config/pm2.json
 
 # 日志
-pm2 log cbet-platform
+pm2 log cra-ssr
 
 ```
 
-release.sh 是自动化脚本 自动化发版
+release.sh 是自动化脚本,大致发布流程

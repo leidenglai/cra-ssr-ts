@@ -1,30 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import './style.less'
-
-const isCurrent = (to, current) => {
-  if (to === '/' && current === to) {
-    return true
-  } else if (to !== '/' && current.includes(to)) {
-    return true
-  }
-
-  return false
-}
-
-const HeaderLink: React.FC<{ to: string; current: string }> = ({
-  to,
-  children,
-  current,
-}) => (
-  <Link className={isCurrent(to, current) ? 'current' : ''} to={to}>
-    {children}
-  </Link>
-)
+import { FormattedMessage } from 'react-intl'
 
 export interface HeaderProps {
-  /** 当前路径 */
-  current: string
   /** 是否有权限 */
   isAuth: boolean
 }
@@ -32,35 +11,39 @@ export interface HeaderProps {
 /**
  * 应用Header导航
  */
-const Header: React.FC<HeaderProps> = ({ current, isAuth }) => (
+const Header: React.FC<HeaderProps> = ({ isAuth }) => (
   <header className="header">
     <nav className="header-nav">
       <ol className="header-nav__left">
         <li className="header-nav__item">
-          <HeaderLink to="/" current={current}>
-            <span>Home</span>
-          </HeaderLink>
+          <NavLink to="/">
+            <FormattedMessage id="page.home" defaultMessage="首页" />
+          </NavLink>
         </li>
         <li className="header-nav__item">
-          <HeaderLink to="/market" current={current}>
-            <span>Market</span>
-          </HeaderLink>
+          <NavLink to="/market">
+            <FormattedMessage id="page.market" defaultMessage="市场" />
+          </NavLink>
         </li>
         <li className="header-nav__item">
-          <HeaderLink to="/detail/1" current={current}>
-            <span>详细 1</span>
-          </HeaderLink>
+          <NavLink to="/detail/1">
+            <FormattedMessage id="page.detail" defaultMessage="详情" />
+          </NavLink>
         </li>
         {isAuth && (
           <li className="header-nav__item">
-            <HeaderLink to="/detail/2" current={current}>
-              <span>详细 2</span>
-            </HeaderLink>
+            <NavLink to="/detail/2">
+              <FormattedMessage id="page.detail2" defaultMessage="详情 2" />
+            </NavLink>
           </li>
         )}
       </ol>
       <ol className="header-nav__right">
-        <li className="header-nav__item">SignIn / Login</li>
+        <li className="header-nav__item">
+          <a href="//www.domain.com:3000">English</a>
+          &nbsp;/&nbsp;
+          <a href="//zh.domain.com:3000">中文</a>
+        </li>
       </ol>
     </nav>
   </header>

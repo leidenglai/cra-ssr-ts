@@ -1,15 +1,14 @@
-import { SET_CURRENT_PROFILE } from '../types'
+import { SET_CURRENT_PROFILE } from 'constants/types'
+import { createAction } from '@reduxjs/toolkit'
 import { Profile } from 'modules/reducers/profile'
 
-export const setCurrentProfile = (profile: Profile | null) => {
-  return {
-    type: SET_CURRENT_PROFILE as typeof SET_CURRENT_PROFILE,
-    payload: profile,
-  }
-}
+export const setCurrentProfileAction = createAction<
+  Profile | undefined,
+  SET_CURRENT_PROFILE
+>(SET_CURRENT_PROFILE)
 
-export const getCurrentProfile = (id: number) => (dispatch) =>
-  new Promise((resolve) => {
+export const getCurrentProfile = (id: number) => dispatch =>
+  new Promise(resolve => {
     setTimeout(() => {
       let profile: Profile
 
@@ -17,27 +16,26 @@ export const getCurrentProfile = (id: number) => (dispatch) =>
         profile = {
           id,
           name: 'Pekka Rinne',
-          image: 'http://xxxxx.coms',
+          image: 'http://xxxxx.coms'
         }
       } else {
         profile = {
           id,
           name: 'Viktor Arvidsson',
-          image: 'http://xxxxx.coms',
+          image: 'http://xxxxx.coms'
         }
       }
 
-      dispatch(setCurrentProfile(profile))
-
+      dispatch(setCurrentProfileAction(profile))
       resolve(profile)
     }, 200)
   })
 
-export const removeCurrentProfile = () => (dispatch) =>
-  new Promise((resolve) => {
-    dispatch(setCurrentProfile(null))
+export const removeCurrentProfile = () => dispatch =>
+  new Promise(resolve => {
+    dispatch(setCurrentProfileAction())
 
     resolve({})
   })
 
-export type UpdateCurrentProfileAction = ReturnType<typeof setCurrentProfile>
+export type SetCurrentProfileAction = ReturnType<typeof setCurrentProfileAction>

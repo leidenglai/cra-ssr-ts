@@ -4,19 +4,16 @@ import { Provider } from 'react-redux'
 import Loadable from 'react-loadable'
 import { Frontload } from 'react-frontload'
 import { ConnectedRouter } from 'connected-react-router'
-import { addLocaleData, IntlProvider } from 'react-intl'
-import RSIntlProvider from 'rsuite/lib/IntlProvider'
-
+import { IntlProvider } from 'react-intl'
+import { ConfigProvider } from 'antd'
 import Root from './app/Root'
 import createStore from './modules/store'
-import { getLocale } from 'utils/getLocale'
+import clientLocale from 'utils/clientLocale'
 
 import 'app/assets/styles/common.less'
 
 // 国际化配置
-const appLocale = getLocale()
-
-addLocaleData(appLocale.data)
+const appLocale = clientLocale()
 
 // Create a store and get back itself and its history object
 const { store, history } = createStore()
@@ -26,13 +23,13 @@ const { store, history } = createStore()
 const Application = (
   <Provider store={store}>
     <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
-      <RSIntlProvider locale={appLocale.rsData}>
+      <ConfigProvider locale={appLocale.antdLocale}>
         <ConnectedRouter history={history}>
           <Frontload noServerRender={true}>
             <Root />
           </Frontload>
         </ConnectedRouter>
-      </RSIntlProvider>
+      </ConfigProvider>
     </IntlProvider>
   </Provider>
 )

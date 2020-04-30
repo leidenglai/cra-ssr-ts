@@ -1,23 +1,19 @@
 import Cookies from 'js-cookie'
-import { SET_CURRENT_USER, AUTHENTICATE } from 'modules/actions/types'
+import { createAction } from '@reduxjs/toolkit'
+import { SET_CURRENT_USER, AUTHENTICATE } from 'constants/types'
 import { UserInfo } from 'modules/reducers/auth'
 
-export const authenticateAction = (auth: boolean) => {
-  return {
-    type: AUTHENTICATE as typeof AUTHENTICATE,
-    payload: auth,
-  }
-}
+export const authenticateAction = createAction<boolean, AUTHENTICATE>(
+  AUTHENTICATE
+)
 
-export const setCurrentUserAction = (user: UserInfo | {}) => {
-  return {
-    type: SET_CURRENT_USER as typeof SET_CURRENT_USER,
-    payload: user,
-  }
-}
+export const setCurrentUserAction = createAction<
+  UserInfo | undefined,
+  SET_CURRENT_USER
+>(SET_CURRENT_USER)
 
-export const establishCurrentUser = () => (dispatch) =>
-  new Promise((resolve) => {
+export const establishCurrentUser = () => dispatch =>
+  new Promise(resolve => {
     const userFromCookie = Cookies.getJSON('mywebsite')
 
     if (userFromCookie) {
@@ -32,12 +28,12 @@ export const establishCurrentUser = () => (dispatch) =>
     }
   })
 
-export const loginUser = (email: string, password: string) => (dispatch) =>
-  new Promise((resolve) => {
+export const loginUser = (email: string, password: string) => dispatch =>
+  new Promise(resolve => {
     const user = {
       email,
       password,
-      name: 'Awesome User',
+      name: 'Awesome User'
     }
 
     dispatch(setCurrentUserAction(user))
@@ -47,14 +43,14 @@ export const loginUser = (email: string, password: string) => (dispatch) =>
     resolve(user)
   })
 
-export const logoutUser = () => (dispatch) =>
-  new Promise((resolve) => {
+export const logoutUser = () => dispatch =>
+  new Promise(resolve => {
     dispatch(authenticateAction(false))
-    dispatch(setCurrentUserAction({}))
+    dispatch(setCurrentUserAction())
 
     Cookies.remove('mywebsite')
     resolve({})
   })
 
-export type UpdateAuthAction = ReturnType<typeof authenticateAction>
-export type UpdateCurrentUserAction = ReturnType<typeof setCurrentUserAction>
+export type AuthenticateAction = ReturnType<typeof authenticateAction>
+export type SetCurrentUserAction = ReturnType<typeof setCurrentUserAction>

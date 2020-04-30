@@ -32,10 +32,7 @@ class Root extends Component<RootProps> {
   render() {
     return (
       <div id="app">
-        <Header
-          isAuth={this.props.isAuthenticated}
-          current={this.props.location.pathname}
-        />
+        <Header isAuth={this.props.isAuthenticated} />
         <div id="content">
           <Routes />
         </div>
@@ -46,11 +43,11 @@ class Root extends Component<RootProps> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: state.auth.isAuthenticated
   }
 }
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators({ establishCurrentUser }, dispatch)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Root))

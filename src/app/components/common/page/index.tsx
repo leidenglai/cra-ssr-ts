@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import Helmet from 'react-helmet'
 import logo from '../../../assets/images/logo.jpg'
-import { injectIntl, InjectedIntlProps } from 'react-intl'
+import { injectIntl, WrappedComponentProps } from 'react-intl'
 
 const SITE_URL =
   process.env.NODE_ENV === 'development'
@@ -26,9 +26,16 @@ export interface MetaTags {
   schema?: string
 }
 
-interface PageProps extends RouteComponentProps, MetaTags, InjectedIntlProps {
+interface PageProps
+  extends RouteComponentProps,
+    MetaTags,
+    WrappedComponentProps {
   id: string
   className?: string
+  // 按需加载的三方 script
+  script?: any[]
+  // 按需加载的三方 link
+  link?: React.LinkHTMLAttributes<HTMLLinkElement>[]
 }
 
 class Page extends Component<PageProps> {
@@ -47,7 +54,7 @@ class Page extends Component<PageProps> {
       { itemprop: 'name', content: theTitle },
       { itemprop: 'description', content: theDescription },
       { itemprop: 'image', content: theImage },
-      { name: 'description', content: theDescription },
+      { name: 'description', content: theDescription }
     ]
 
     if (metaOptions.noCrawl) {
@@ -57,13 +64,13 @@ class Page extends Component<PageProps> {
     if (metaOptions.published) {
       metaTags.push({
         name: 'article:published_time',
-        content: metaOptions.published,
+        content: metaOptions.published
       })
     }
     if (metaOptions.updated) {
       metaTags.push({
         name: 'article:modified_time',
-        content: metaOptions.updated,
+        content: metaOptions.updated
       })
     }
     if (metaOptions.category) {
@@ -77,7 +84,7 @@ class Page extends Component<PageProps> {
   }
 
   render() {
-    const { intl, children, id, className, ...rest } = this.props
+    const { intl, children, id, className, link = [], ...rest } = this.props
 
     return (
       <div id={id} className={className}>
@@ -85,7 +92,7 @@ class Page extends Component<PageProps> {
           htmlAttributes={{
             lang: intl.locale || 'en',
             itemscope: undefined,
-            itemtype: `http://schema.org/${rest.schema || 'WebPage'}`,
+            itemtype: `http://schema.org/${rest.schema || 'WebPage'}`
           }}
           title={
             rest.title ? rest.title + defaultSep + defaultTitle : defaultTitle
@@ -93,10 +100,12 @@ class Page extends Component<PageProps> {
           link={[
             {
               rel: 'canonical',
-              href: SITE_URL + this.props.location.pathname,
+              href: SITE_URL + this.props.location.pathname
             },
+            ...link
           ]}
           meta={this.getMetaTags(rest, this.props.location.pathname)}
+          script={this.props.script}
         />
         {children}
       </div>

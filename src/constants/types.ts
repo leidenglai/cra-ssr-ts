@@ -1,4 +1,8 @@
 export const AUTHENTICATE = 'auth/AUTHENTICATE'
+export type AUTHENTICATE = typeof AUTHENTICATE
+
 export const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
+export type SET_CURRENT_USER = typeof SET_CURRENT_USER
 
 export const SET_CURRENT_PROFILE = 'user/SET_CURRENT_PROFILE'
+export type SET_CURRENT_PROFILE = typeof SET_CURRENT_PROFILE

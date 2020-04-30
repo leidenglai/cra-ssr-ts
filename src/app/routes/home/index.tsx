@@ -1,15 +1,34 @@
 import React from 'react'
 import Page from 'app/components/common/page'
-import _ from 'lodash'
-
 import logo from 'app/assets/images/logo.jpg'
+import { Button } from 'antd'
+import { injectIntl, WrappedComponentProps } from 'react-intl'
 
-export default () => (
-  <Page id="home">
-    <h1>这是首页</h1>
-    <img src={logo} alt="home" width={400} />
-    {_.map([1, 2, 3], (index) => (
-      <div key={index}>{index}</div>
-    ))}
-  </Page>
-)
+interface HomePageProps extends WrappedComponentProps {}
+
+/** 首页 */
+class HomePage extends React.Component<HomePageProps> {
+  render() {
+    return (
+      <Page
+        id="home"
+        title={this.props.intl.formatMessage({
+          id: 'page.home',
+          defaultMessage: '首页'
+        })}
+      >
+        <h1>这是首页</h1>
+        <img src={logo} alt="home" width={400} />
+        {[1, 2, 3].map(item => (
+          <div key={item}>{item}</div>
+        ))}
+
+        <Button size="large" type="primary">
+          Haha
+        </Button>
+      </Page>
+    )
+  }
+}
+
+export default injectIntl(HomePage)

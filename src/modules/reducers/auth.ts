@@ -1,12 +1,11 @@
 import { produce } from 'immer'
 
 import { createReducer } from 'utils/createReducer'
-import { UpdateAuthAction, UpdateCurrentUserAction } from 'modules/actions/auth'
-import { AUTHENTICATE, SET_CURRENT_USER } from 'modules/actions/types'
+import { AuthenticateAction, SetCurrentUserAction } from 'modules/actions/auth'
+import { AUTHENTICATE, SET_CURRENT_USER } from 'constants/types'
 
-type Actions = UpdateAuthAction | UpdateCurrentUserAction
-
-type Types = typeof AUTHENTICATE | typeof SET_CURRENT_USER
+type Actions = AuthenticateAction | SetCurrentUserAction
+type Types = AUTHENTICATE | SET_CURRENT_USER
 
 export interface UserInfo {
   email: string
@@ -16,22 +15,21 @@ export interface UserInfo {
 
 export interface AuthState {
   readonly isAuthenticated: boolean
-  readonly currentUser: UserInfo | {}
+  readonly currentUser?: UserInfo
 }
 
 export default createReducer<AuthState, Types, Actions>(
   {
-    isAuthenticated: false,
-    currentUser: {},
+    isAuthenticated: false
   },
   {
     [AUTHENTICATE]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.isAuthenticated = action.payload
       }),
     [SET_CURRENT_USER]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.currentUser = action.payload
-      }),
+      })
   }
 )

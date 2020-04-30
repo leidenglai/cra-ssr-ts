@@ -1,7 +1,10 @@
 import { produce } from 'immer'
-import { SET_CURRENT_PROFILE } from 'modules/actions/types'
+import { SET_CURRENT_PROFILE } from 'constants/types'
 import { createReducer } from 'utils/createReducer'
-import { UpdateCurrentProfileAction } from 'modules/actions/profile'
+import { SetCurrentProfileAction } from 'modules/actions/profile'
+
+type Types = SET_CURRENT_PROFILE
+type Actions = SetCurrentProfileAction
 
 export interface Profile {
   id: number
@@ -10,21 +13,15 @@ export interface Profile {
 }
 
 export interface ProfileState {
-  currentProfile: Profile | null
+  currentProfile?: Profile
 }
 
-type Types = typeof SET_CURRENT_PROFILE
-
-type Actions = UpdateCurrentProfileAction
-
 export default createReducer<ProfileState, Types, Actions>(
-  {
-    currentProfile: null,
-  },
+  {},
   {
     [SET_CURRENT_PROFILE]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.currentProfile = action.payload
-      }),
+      })
   }
 )

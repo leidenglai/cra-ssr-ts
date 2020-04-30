@@ -2,16 +2,12 @@ declare interface Window {
   /** Redux DevTools extension */
   __REDUX_DEVTOOLS_EXTENSION__: Function | undefined
   /** store 初始数据 */
-  __PRELOADED_STATE__: Object
+  __PRELOADED_STATE__: Record<string, any>
 
-  /** 客户端配置 */
-  __CLIENT_CONFIG__: {
-    /** 多语言配置 */
-    appLocale: {
-      locale: 'zh-Hans-CN' | 'en-US'
-      data: any
-      messages: any
-      rsData: any
-    }
+  /** 多语言配置 */
+  __INTL_CONFIG__: {
+    locale: 'zh-CN' | 'en-US'
+    messages: any
+    key: 'en' | 'zh'
   }
 }

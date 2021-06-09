@@ -2499,17 +2499,9 @@ babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
-babel-plugin-import@^1.13.0:
+babel-plugin-import@^1.13.0, babel-plugin-import@^1.9.1:
   version "1.13.0"
   resolved "https://registry.npm.taobao.org/babel-plugin-import/download/babel-plugin-import-1.13.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-plugin-import%2Fdownload%2Fbabel-plugin-import-1.13.0.tgz#c532fd533df9db53b47d4d4db3676090fc5c07a5"
-  integrity sha1-xTL9Uz3521O0fU1Ns2dgkPxcB6U=
-  dependencies:
-    "@babel/helper-module-imports" "^7.0.0"
-    "@babel/runtime" "^7.0.0"
-
-babel-plugin-import@^1.9.1:
-  version "1.13.0"
-  resolved "https://registry.npm.taobao.org/babel-plugin-import/download/babel-plugin-import-1.13.0.tgz#c532fd533df9db53b47d4d4db3676090fc5c07a5"
   integrity sha1-xTL9Uz3521O0fU1Ns2dgkPxcB6U=
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
@@ -11892,9 +11884,9 @@ tr46@^1.0.1:
     punycode "^2.1.0"
 
 trim-newlines@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/trim-newlines/download/trim-newlines-3.0.0.tgz#79726304a6a898aa8373427298d54c2ee8b1cb30"
-  integrity sha1-eXJjBKaomKqDc0JymNVMLuixyzA=
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
+  integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
 trim-trailing-lines@^1.0.0:
   version "1.1.3"

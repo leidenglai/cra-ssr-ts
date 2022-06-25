@@ -39,7 +39,7 @@
     "lru-cache": "^5.1.1",
     "md5-file": "^4.0.0",
     "module-alias": "^2.2.0",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.7",
     "prop-types": "15.7.2",
     "query-string": "^6.2.0",
     "react": "^16.8.6",
